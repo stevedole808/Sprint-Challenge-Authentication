@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const signToken = require("../token/token.js");
+const Token = require("../token/token.js");
 const Users = require("../users/users-model.js");
 
 router.post("/register", (req, res) => {
@@ -25,7 +25,7 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = signToken(user);
+        const token = Token(user);
         res.status(200).json({
           token,
           message: `Welcome, ${user.username}!`
